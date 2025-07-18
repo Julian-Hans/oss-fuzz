@@ -23,6 +23,7 @@ import java.io.IOException;
 public class CompressorLZ4Fuzzer extends BaseTests {
     // Test both LZ4 classes
     public static void fuzzerTestOneInput(byte[] data) {
+        System.out.println("Input bytes: " + java.util.Arrays.toString(data));
         try {
             fuzzCompressorInputStream(new BlockLZ4CompressorInputStream(new ByteArrayInputStream(data)));
         } catch (IOException ignored) {
