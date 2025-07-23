@@ -1,0 +1,15 @@
+homepage: "https://github.com/Julian-Hans/test-cp"
+language: jvm
+primary_contact: "julian.hans@example.com"
+auto_ccs:
+  - "julian.hans@example.com"
+
+sanitizers:
+  - address
+
+coverage_extra_args: -ignore-calls=com.code_intelligence.jazzer.runtime.NativeLibHooks.*
+
+fuzzing_engines:
+  - libfuzzer
+
+main_repo: "https://github.com/Julian-Hans/test-cp.git"

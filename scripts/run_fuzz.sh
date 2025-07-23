@@ -27,4 +27,6 @@ fi
 python3 infra/helper.py reproduce \
   "$PROJECT_NAME" \
   "$FUZZER" \
-  "$TESTCASE_FILE"
+  "$TESTCASE_FILE" \
+  -- \
+  -runs=2

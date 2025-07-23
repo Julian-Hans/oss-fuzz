@@ -1,0 +1,1 @@
+jazze -c echo pwned\n
