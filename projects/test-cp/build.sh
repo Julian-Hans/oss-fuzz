@@ -15,50 +15,53 @@
 #
 ################################################################################
 
-pushd "$SRC/test-cp"
-  MAVEN_ARGS="-Dmaven.test.skip=true -Djavac.src.version=17 -Djavac.target.version=17"
-  echo "Running Maven with debug output..."
-  echo "Working directory: $(pwd)"
-  echo "Java version:"
-  java -version
-  echo "Maven version:"
-  $MVN --version
-  
-  # Run Maven with full output
-  echo "Running Maven build..."
-  set +e  # Don't exit on Maven failure
-  $MVN package org.apache.maven.plugins:maven-shade-plugin:3.5.1:shade $MAVEN_ARGS -e -X
-  MAVEN_EXIT_CODE=$?
-  set -e
-  
-  echo "Maven exit code: $MAVEN_EXIT_CODE"
-  if [ $MAVEN_EXIT_CODE -ne 0 ]; then
-    echo "Maven build failed with exit code $MAVEN_EXIT_CODE"
-    exit 1
-  fi
-  
-  # Get version dynamically
-  CURRENT_VERSION=$($MVN org.apache.maven.plugins:maven-help-plugin:3.4.0:evaluate \
-   -Dexpression=project.version -q -DforceStdout $MAVEN_ARGS 2>/dev/null)
-  
-  # If version detection fails, use hardcoded version from pom.xml
-  if [ -z "$CURRENT_VERSION" ]; then
-    CURRENT_VERSION="1.0-SNAPSHOT"
-    echo "Version detection failed, using hardcoded version: $CURRENT_VERSION"
-  fi
-  
-  echo "Current version: $CURRENT_VERSION"
-  echo "Looking for JAR: target/fuzzer-test-$CURRENT_VERSION.jar"
-  ls -la target/ || echo "No target directory"
-  
-  if [ ! -f "target/fuzzer-test-$CURRENT_VERSION.jar" ]; then
-    echo "Expected JAR not found. All files in target/:"
-    find target/ -type f | head -20
-    exit 1
-  fi
-  
-  cp "target/fuzzer-test-$CURRENT_VERSION.jar" $OUT/fuzzer-test.jar
-popd
+# Clone the repository from GitHub
+echo "Cloning test-cp repository from GitHub..."
+git clone https://github.com/Julian-Hans/test-cp.git "$SRC/test-cp"
+cd "$SRC/test-cp"
+
+MAVEN_ARGS="-Dmaven.test.skip=true -Djavac.src.version=17 -Djavac.target.version=17"
+echo "Running Maven with debug output..."
+echo "Working directory: $(pwd)"
+echo "Java version:"
+java -version
+echo "Maven version:"
+$MVN --version
+
+# Run Maven with full output
+echo "Running Maven build..."
+set +e  # Don't exit on Maven failure
+$MVN package org.apache.maven.plugins:maven-shade-plugin:3.5.1:shade $MAVEN_ARGS -e -X
+MAVEN_EXIT_CODE=$?
+set -e
+
+echo "Maven exit code: $MAVEN_EXIT_CODE"
+if [ $MAVEN_EXIT_CODE -ne 0 ]; then
+  echo "Maven build failed with exit code $MAVEN_EXIT_CODE"
+  exit 1
+fi
+
+# Get version dynamically
+CURRENT_VERSION=$($MVN org.apache.maven.plugins:maven-help-plugin:3.4.0:evaluate \
+ -Dexpression=project.version -q -DforceStdout $MAVEN_ARGS 2>/dev/null)
+
+# If version detection fails, use hardcoded version from pom.xml
+if [ -z "$CURRENT_VERSION" ]; then
+  CURRENT_VERSION="1.0-SNAPSHOT"
+  echo "Version detection failed, using hardcoded version: $CURRENT_VERSION"
+fi
+
+echo "Current version: $CURRENT_VERSION"
+echo "Looking for JAR: target/fuzzer-test-$CURRENT_VERSION.jar"
+ls -la target/ || echo "No target directory"
+
+if [ ! -f "target/fuzzer-test-$CURRENT_VERSION.jar" ]; then
+  echo "Expected JAR not found. All files in target/:"
+  find target/ -type f | head -20
+  exit 1
+fi
+
+cp "target/fuzzer-test-$CURRENT_VERSION.jar" $OUT/fuzzer-test.jar
 
 ALL_JARS="fuzzer-test.jar"
 

@@ -36,10 +36,6 @@ if [[ -v LOCAL_DEV ]]; then
 
   # checkout latest project version
   git -C $PROJECT pull || git clone $MAIN_REPOSITORY $PROJECT
-# Execute instrumentation jar after git clone
-echo 'Running instrumentation jar: /path/to/instrumentation.jar'
-java -jar /path/to/instrumentation.jar $PROJECT
-
 
   set_project_version_in_fuzz_targets_dependency
 

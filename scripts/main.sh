@@ -4,7 +4,7 @@
 PROJECT_NAME="test-cp"
 SANITIZER_TYPE="address"
 FUZZER_NAME="TestFuzzer"
-TESTCASE_FILE="${TESTCASE_FILE}"
+TESTCASE_FILE="out/static_corpus/test.txt"
 
 # Build image
 ./scripts/build_image.sh "$PROJECT_NAME"
