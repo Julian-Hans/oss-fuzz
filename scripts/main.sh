@@ -4,7 +4,7 @@
 PROJECT_NAME="test-cp"
 SANITIZER_TYPE="address"
 FUZZER_NAME="TestFuzzer"
-TESTCASE_FILE="/Users/julian.hans/repos/PoV-Agent-Oss-Fuzz/test-cases/test.txt"
+TESTCASE_FILE="${TESTCASE_FILE}"
 
 # Build image
 ./scripts/build_image.sh "$PROJECT_NAME"
