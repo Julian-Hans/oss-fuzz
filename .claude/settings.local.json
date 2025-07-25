@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./scripts/main.sh:*)",
+      "Bash(chmod:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(rm:*)",
+      "Bash(python:*)"
+    ],
+    "deny": []
+  }
+}
