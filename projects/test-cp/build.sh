@@ -15,9 +15,8 @@
 #
 ################################################################################
 
-# Clone the repository from GitHub
-echo "Cloning test-cp repository from GitHub..."
-git clone https://github.com/Julian-Hans/test-cp.git "$SRC/test-cp"
+# Use pre-cloned source code from Dockerfile
+echo "Using pre-cloned test-cp repository..."
 cd "$SRC/test-cp"
 
 MAVEN_ARGS="-Dmaven.test.skip=true -Djavac.src.version=17 -Djavac.target.version=17"
