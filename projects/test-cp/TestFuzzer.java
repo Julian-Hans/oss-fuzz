@@ -18,24 +18,9 @@ public class TestFuzzer {
      * @param input Raw byte array of fuzzed input data
      */
     public static void fuzzerTestOneInput(byte[] input) {
-        // Capture System.out to see BranchingPuzzle debug output
-        PrintStream originalOut = System.out;
-        ByteArrayOutputStream captureStream = new ByteArrayOutputStream();
-        PrintStream captureOut = new PrintStream(captureStream);
-        
         try {
-            // Redirect System.out to capture puzzle output
-            System.setOut(captureOut);
-            
             // Feed the fuzzed input to our vulnerable puzzle
             String result = puzzle.processPuzzleInput(input);
-            
-            // Restore original System.out and print captured output
-            System.setOut(originalOut);
-            String capturedOutput = captureStream.toString();
-            if (!capturedOutput.isEmpty()) {
-                System.out.println("[PUZZLE OUTPUT] " + capturedOutput.trim());
-            }
             System.out.println("[PUZZLE RESULT] " + result);
             
             // The fuzzer should eventually discover an input sequence that:
@@ -48,13 +33,6 @@ public class TestFuzzer {
             // as an OS command, triggering Jazzer's sanitizer detection
             
         } catch (Exception e) {
-            // Restore System.out in case of exception
-            System.setOut(originalOut);
-            String capturedOutput = captureStream.toString();
-            if (!capturedOutput.isEmpty()) {
-                System.out.println("[PUZZLE OUTPUT] " + capturedOutput.trim());
-            }
-            
             // Let security-related exceptions propagate to trigger detection
             // but catch other exceptions to keep fuzzing stable
             if (e.getMessage() != null && 
