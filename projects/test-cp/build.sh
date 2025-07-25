@@ -28,10 +28,10 @@ java -version
 echo "Maven version:"
 $MVN --version
 
-# Run Maven with full output
+# Run Maven build
 echo "Running Maven build..."
 set +e  # Don't exit on Maven failure
-$MVN package org.apache.maven.plugins:maven-shade-plugin:3.5.1:shade $MAVEN_ARGS -e -X
+$MVN package org.apache.maven.plugins:maven-shade-plugin:3.5.1:shade $MAVEN_ARGS
 MAVEN_EXIT_CODE=$?
 set -e
 
