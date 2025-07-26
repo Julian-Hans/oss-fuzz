@@ -22,7 +22,7 @@ import java.io.IOException;
 public class CompressorGzipFuzzer extends BaseTests {
     public static void fuzzerTestOneInput(byte[] data) {
         System.out.println("Data: " + java.util.Arrays.toString(data));
-        try {
+        trya {
             fuzzCompressorInputStream(new GzipCompressorInputStream(new ByteArrayInputStream(data)));
         } catch (IOException ignored) {
         }
