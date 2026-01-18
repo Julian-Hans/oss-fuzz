@@ -18,16 +18,13 @@
 # Copy seed corpus and dictionary.
 mv $SRC/{*.zip,*.dict} $OUT
 
-# Create empty checkstyle config to bypass style checks (hardcoded skip=false in pom.xml)
-cat > /tmp/checkstyle-noop.xml << 'EOF'
+# Override checkstyle config with empty rules (hardcoded skip=false in pom.xml)
+cat > src/checkstyle/fastjson2-checks.xml << 'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
     "http://checkstyle.sourceforge.net/dtds/configuration_1_3.dtd">
 <module name="Checker"/>
 EOF
-
-# Copy empty config to override project's checkstyle config
-cp /tmp/checkstyle-noop.xml src/checkstyle/fastjson2-checks.xml
 
 mvn package -Dmaven.test.skip=true -Djdk.version=15
 CURRENT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
