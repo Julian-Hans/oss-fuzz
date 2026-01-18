@@ -26,7 +26,10 @@ cat > /tmp/checkstyle-noop.xml << 'EOF'
 <module name="Checker"/>
 EOF
 
-mvn package -Dmaven.test.skip=true -Dcheckstyle.configLocation=/tmp/checkstyle-noop.xml -Djdk.version=15
+# Copy empty config to override project's checkstyle config
+cp /tmp/checkstyle-noop.xml src/checkstyle/fastjson2-checks.xml
+
+mvn package -Dmaven.test.skip=true -Djdk.version=15
 CURRENT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate \
  -Dexpression=project.version -q -DforceStdout)
 cp "core/target/fastjson2-$CURRENT_VERSION.jar" $OUT/fastjson2.jar
